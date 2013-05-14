@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>JSON Simple Demo</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+	  tr { text-align:left; }
+    </style>
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="css/screen.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">JSON Demo 01, Simple</a>
+			</div>
+		</div>
+	</div>
+    <div class="container">
+		<h1>Simple JSON Demo 01</h1>
+    </div> 	
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span6">
+				<form class="form-horizontal" id="emp_form">
+					<fieldset>
+						<legend>Change JSON</legend>
+						<div class="control-group">
+							<label class="control-label" for="employee_id">Employee ID:</label>
+							<div class="controls">
+								<input type="text" id="employee_id" value="" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="emp_name">Name:</label>
+							<div class="controls">
+								<input type="text" id="emp_name" value="" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="location">Location:</label>
+							<div class="controls">
+								<input type="text" id="location" value="" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="hire_date">Date of Hire:</label>
+							<div class="controls">
+								<input type="text" id="hire_date" value="" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="consultant">Consultant:</label>
+							<div class="controls">
+								<input type="radio" name="consultant" id="consultant_y" value="Y" />Yes <br />
+								<input type="radio" name="consultant" id="consultant_n" value="N" />No
+							</div>
+						</div>
+						<!--div class="control-group">
+							<label class="control-label" for=""></label>
+							<div class="controls">
+
+							</div>
+						</div-->
+					</fieldset>
+					<div class="form-actions">
+						<input type="button" id="btn-update" class="btn btn-primary" value="Update JSON" /> 
+						<input type="button" id="btn-clear" class="btn" value="Clear Form" /> 
+					</div>
+				</form>
+			</div>
+			<div class="span5 offset1">
+				<h3>JSON Output</h3>
+				<table cellpadding="5" cellspacing="2" border="0">
+				<tr>
+					<th>Employee ID:</th>
+					<td id="view_employee_id"></td>
+				</tr>
+				<tr>
+					<th>Name:</th>
+					<td id="view_emp_name"></td>
+				</tr>
+				<tr>
+					<th>Location:</th>
+					<td id="view_location"></td>
+				</tr>
+				<tr>	
+					<th>Date of Hire:</th>
+					<td id="view_hire_date"></td>
+				</tr>
+				<tr>
+					<th>Is Consultant?</th>
+					<td id="view_consultant"></td>
+				</tr>
+				</table>
+				<p /><br />
+				<div style="width:100%; text-align:center;">
+					<input type="button" id="btn-default" class="btn btn-primary" value="Show Default" /> 
+				</div>
+				<p />
+				<br />
+				<h5>Raw JSON</h5>
+				<pre id="json_output"></div>
+			</div>
+		</div>
+	</div>
+
+    <script src="js/jquery-1.9.0.js"></script>
+    <script src="js/json2.js"></script>
+    <script type="text/javaScript">
+		var default_employee = {
+			"employee_id": -1,
+			"emp_name": null,
+			"location": null,
+			"hire_date": null,
+			"consultant": false
+		};
+		function clearForm() {
+			$('input[type=text]').val("");
+			$('input:checked').attr('checked', false);
+		}
+		function displayData(dataIn) {
+			$("#view_employee_id").html(dataIn.employee_id);
+			$("#view_emp_name").html((dataIn.emp_name)?dataIn.emp_name : "Not Set");
+			$("#view_location").html((dataIn.location)?dataIn.location : "Not Set");
+			$("#view_hire_date").html((dataIn.hire_date)?dataIn.hire_date : "Not Set");
+			$("#view_consultant").html((dataIn.consultant) ? "Yes" : "No");
+			$("#json_output").html(JSON.stringify(dataIn));
+		}
+		
+		function updateData() {
+			var dataObj = {};
+			dataObj.employee_id = parseInt($("#employee_id").val());
+			dataObj.emp_name = $("#emp_name").val();
+			dataObj.location = $("#location").val();
+			dataObj.hire_date = $("#hire_date").val();
+			dataObj.consultant = ($('input[name=consultant]:checked', '#emp_form').val() == "Y");
+			displayData(dataObj);
+		}
+		
+		$(document).ready(function() {
+			$("#btn-default").click(function(e) {
+				displayData(default_employee);
+			});
+			$("#btn-update").click(function(e) {
+				updateData();
+			});
+			$("#btn-clear").click(function(e) {
+				clearForm();
+			});
+			
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>JSON Simple Demo</title>
+	<link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+	  tr { text-align:left; }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/screen.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="#">JSON Demo 01, Simple</a>
+			</div>
+		</div>
+	</div>
+    <div class="container">
+		<h1>Simple JSON Demo 01</h1>
+    </div>
+	
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span6">
+				<form class="form-horizontal" id="emp_form">
+					<fieldset>
+						<legend>Change User Data with this form</legend>
+						<div class="control-group">
+							<label class="control-label" for="name">Employee ID</label>
+							<div class="controls">
+								<input type="text" name="employee_id" id="employee_id" value="" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="name">Name</label>
+							<div class="controls">
+								<input type="text" name="emp_name" id="emp_name" value="" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="name">Location</label>
+							<div class="controls">
+								<input type="text" name="location" id="location" value="" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="name">Date of Hire</label>
+							<div class="controls">
+								<input type="text" name="hire_date" id="hire_date" value="" />
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="name">Is Consulant?</label>
+							<div class="controls">
+								<input type="radio" name="consultant" id="consultant" value="Y" /> Yes<br />
+								<input type="radio" name="consultant" id="consultant" value="N" /> No
+							</div>
+						</div>
+					</fieldset>
+					<div class="form-actions">
+						<input type="button" id="btn-update" class="btn btn-primary" value="Update" />
+						<input type="button" id="btn-clear" class="btn" value="Clear Form" /> 
+					</div>
+				</form>
+			</div>
+			<div class="span5 offset1">
+				<h3>JSON Output</h3>
+				<table cellpadding="5" cellspacing="2" border="0">
+				<tr>
+					<th>Employee ID:</th>
+					<td id="view_employee_id"></td>
+				</tr>
+				<tr>
+					<th>Name:</th>
+					<td id="view_emp_name"></td>
+				</tr>
+				<tr>
+					<th>Location:</th>
+					<td id="view_location"></td>
+				</tr>
+				<tr>
+					<th>Date of Hire:</th>
+					<td id="view_hire_date"></td>
+				</tr>
+				<tr>
+					<th>Is Consultant:</th>
+					<td id="view_consultant"></td>
+				</tr>
+				</table>
+				<p /><br />
+				<div style="width;100%; text-align:center;">
+					<input type="button" id="btn-default" class="btn btn-primary" value="Show Default" />
+				</div>
+				<h5>Raw JSON</h5>
+				<pre id="json_output"></pre>
+			</div>
+		</div>
+	</div>
+
+    <script src="js/jquery-1.9.0.js"></script>
+    <script src="js/json2.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/additional-methods.min.js"></script>
+    <script src="js/lib.js"></script>
+    <script type="text/JavaScript">
+		// validate signup form on keyup and submit
+	var form_val = $("#emp_form").validate({
+		rules: {
+			employee_id: {
+				required: true,
+				number: true
+			},
+			emp_name: {
+				required: true,
+				minlength: 2
+			},
+			location: {
+				required: true,
+				minlength: 5
+			},
+			hire_date: {
+				required: true,
+				date: true
+			}
+		},
+		messages: {
+			employee_id: {
+				required: "Please enter an employee id",
+				number: "Enter a valid number"
+			},
+			emp_name: {
+				required: "Please enter an employee name",
+				minlength: "Users name must be at least 2 characters"
+			},
+			location: {
+				required: "Please enter location",
+				minlength: "Location must be at least 5 characters long"
+			},
+			hire_date: {
+				required: "Please provide a date of hire",
+				date: "Date of hire must be a valid date"
+			}
+		}
+	});
+	// DEFAULT VARS
+		var props = {"employee_id":"number","emp_name":"varchar","location":"varchar","hire_date":"varchar","consultant":"boolean"};
+		var default_employee = {
+			"employee_id": -1,
+			"emp_name": null,
+			"location": null,
+			"hire_date": null,
+			"consultant": false
+		};
+		// EVENT HANDLERS
+		$(document).ready(function() {
+			$("#btn-default").click(function() {
+				displayData(default_employee);
+			});
+			$("#btn-update").click(function() {
+				handleForm();
+			});
+			$("#btn-clear").click(function(e) {
+				clearForm();
+			});
+		});
+	</script>
+  </body>
+</html>
